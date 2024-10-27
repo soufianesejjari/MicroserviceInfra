@@ -1,0 +1,4 @@
+
+CREATE DATABASE "order";
+CREATE DATABASE "product";
+CREATE DATABASE "customer";

@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: gatewayService
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://customer
+          predicates:
+            - Path=/customers/**
+          filters:
+            - RewritePath=/customers/(?<segment>actuator/.*), /${segment}
+        - id: product
+          uri: lb://product
+          predicates:
+            - Path=/products/**
+          filters:
+            - RewritePath=/products/(?<segment>actuator/.*), /${segment}
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/orders/**
+          filters:
+            - RewritePath=/orders/(?<segment>actuator/.*), /${segment}
+server:
+  port: 8777
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
